@@ -11,8 +11,12 @@ require('model/functions.fn.php');
 			PROCESS
 ********************************/
 
-if (isset($_POST) && !empty($_POST)) {
-	
+if (isset($_POST['email']) && !empty($_POST['email']) &&
+	isset($_POST['password']) && !empty($_POST['password'])
+) {
+	$email = $_POST['email'];
+	$passeword = $_POST['password'];
+
 	/*userConnection
 		return :
 			true for connection OK
@@ -21,9 +25,12 @@ if (isset($_POST) && !empty($_POST)) {
 		$email -> 			field value : email
 		$password -> 		field value : password
 	*/
-	userConnection($db, 'git@initiation.com', 'password');
-	
-	header('Location: dashboard.php');
+	if (userConnection($db, $email, $passeword)) {
+		header('Location: dashboard.php');
+	}
+	else {
+		$error = "Mauvaise identification";
+	}
 }
 
 /******************************** 
